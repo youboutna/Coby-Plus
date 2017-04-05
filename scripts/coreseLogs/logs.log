@@ -1,0 +1,70 @@
+ERROR	2017-03-27 13:07:45,003	0	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-characteristics.owl
+ERROR	2017-03-27 13:07:45,006	3	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-core.owl
+ERROR	2017-03-27 13:07:45,007	4	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-spatial.owl
+ERROR	2017-03-27 13:07:45,008	5	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-standards.owl
+ERROR	2017-03-27 13:07:45,008	5	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-temporal.owl
+ERROR	2017-03-27 13:20:26,387	0	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-characteristics.owl
+ERROR	2017-03-27 13:20:26,390	3	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-core.owl
+ERROR	2017-03-27 13:20:26,390	3	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-spatial.owl
+ERROR	2017-03-27 13:20:26,391	4	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-standards.owl
+ERROR	2017-03-27 13:20:26,392	5	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-temporal.owl
+ERROR	2017-03-27 13:23:48,201	0	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-characteristics.owl
+ERROR	2017-03-27 13:23:48,204	3	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-core.owl
+ERROR	2017-03-27 13:23:48,205	4	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-spatial.owl
+ERROR	2017-03-27 13:23:48,205	4	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-standards.owl
+ERROR	2017-03-27 13:23:48,206	5	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-temporal.owl
+ERROR	2017-03-27 13:28:49,020	0	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-characteristics.owl
+ERROR	2017-03-27 13:28:49,023	3	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-core.owl
+ERROR	2017-03-27 13:28:49,023	3	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-spatial.owl
+ERROR	2017-03-27 13:28:49,024	4	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-standards.owl
+ERROR	2017-03-27 13:28:49,025	5	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-temporal.owl
+ERROR	2017-03-27 13:30:41,731	0	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-characteristics.owl
+ERROR	2017-03-27 13:30:41,734	3	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-core.owl
+ERROR	2017-03-27 13:30:41,734	3	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-spatial.owl
+ERROR	2017-03-27 13:30:41,735	4	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-standards.owl
+ERROR	2017-03-27 13:30:41,736	5	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-temporal.owl
+ERROR	2017-03-27 13:33:14,570	0	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-characteristics.owl
+ERROR	2017-03-27 13:33:14,573	3	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-core.owl
+ERROR	2017-03-27 13:33:14,574	4	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-spatial.owl
+ERROR	2017-03-27 13:33:14,574	4	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-standards.owl
+ERROR	2017-03-27 13:33:14,575	5	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-temporal.owl
+ERROR	2017-03-27 13:38:14,394	0	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-characteristics.owl
+ERROR	2017-03-27 13:38:14,396	2	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-core.owl
+ERROR	2017-03-27 13:38:14,397	3	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-spatial.owl
+ERROR	2017-03-27 13:38:14,398	4	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-standards.owl
+ERROR	2017-03-27 13:38:14,398	4	fr.inria.edelweiss.kgtool.load.Load	[main]	java.net.ConnectException Connexion refusée (Connection refused)
+http://ecoinformatics.org/oboe/oboe.1.0/oboe-temporal.owl
