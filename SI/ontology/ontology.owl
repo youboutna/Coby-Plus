@@ -4,8 +4,11 @@
      xmlns:dc="http://purl.org/dc/elements/1.1/"
      xmlns:rfds="http://www.anaee-france.fr/ontology/anaee-france_ontology#rfds%3"
      xmlns:wgs84_pos="http://www.w3.org/2003/01/geo/wgs84_pos#"
-     xmlns:foaf="http://xmlns.com/foaf/0.1/"
-     xmlns:anaee-france_ontology="http://www.anaee-france.fr/ontology/anaee-france_ontology#"
+        xmlns:foaf="http://xmlns.com/foaf/0.1/"
+     xmlns:org="http://www.w3.org/ns/org#"
+     xmlns:dcterms="http://purl.org/dc/terms/"
+     xmlns:doap="http://usefulinc.com/ns/doap#"
+     xmlns:anaee="http://www.anaee-france.fr/ontology/anaee-france_ontology#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
      xmlns:swrl="http://www.w3.org/2003/11/swrl#"
      xmlns:webprotege="http://protege.stanford.edu/webprotege/"
@@ -42,11 +45,15 @@ Les ontologies OBOE (core + extensions) ne sont plus chargées depuis le web mai
         <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">pclastre</dc:creator>
         <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">system</dc:creator>
         <dc:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">yahiaoui</dc:creator>
-        <owl:imports rdf:resource="http://ecoinformatics.org/oboe/oboe.1.0/oboe-characteristics.owl"/>
-        <owl:imports rdf:resource="http://ecoinformatics.org/oboe/oboe.1.0/oboe-core.owl"/>
-        <owl:imports rdf:resource="http://ecoinformatics.org/oboe/oboe.1.0/oboe-spatial.owl"/>
-        <owl:imports rdf:resource="http://ecoinformatics.org/oboe/oboe.1.0/oboe-standards.owl"/>
-        <owl:imports rdf:resource="http://ecoinformatics.org/oboe/oboe.1.0/oboe-temporal.owl"/>
+        <owl:imports rdf:resource="file:/home/melhadramy/Documents/projet-anaEE-France/Coby-Plus/SI/ontology/oboe-core_AnaEE-F.owl"/>
+        <owl:imports rdf:resource="file:/home/melhadramy/Documents/projet-anaEE-France/Coby-Plus/SI/ontology/oboe-spatial_AnaEE-F.owl"/>
+        <owl:imports rdf:resource="file:/home/melhadramy/Documents/projet-anaEE-France/Coby-Plus/SI/ontology/org.owl"/>
+        <owl:imports rdf:resource="file:/home/melhadramy/Documents/projet-anaEE-France/Coby-Plus/SI/ontology/foaf-ontology.owl"/>
+        <owl:imports rdf:resource="file:/home/melhadramy/Documents/projet-anaEE-France/Coby-Plus/SI/ontology/dublincore.owl"/>
+        <owl:imports rdf:resource="file:/home/melhadramy/Documents/projet-anaEE-France/Coby-Plus/SI/ontology/oboe-temporal_AnaEE-F.owl"/>
+        <owl:imports rdf:resource="file:/home/melhadramy/Documents/projet-anaEE-France/Coby-Plus/SI/ontology/oboe-characteristics_AnaEE-F.owl"/>
+        <owl:imports rdf:resource="file:/home/melhadramy/Documents/projet-anaEE-France/Coby-Plus/SI/ontology/doap-ontology.owl"/>
+        <owl:imports rdf:resource="file:/home/melhadramy/Documents/projet-anaEE-France/Coby-Plus/SI/ontology/oboe-standards_AnaEE-F.owl"/>
     </owl:Ontology>
     
 

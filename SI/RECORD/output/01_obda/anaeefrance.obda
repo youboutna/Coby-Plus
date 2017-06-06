@@ -1,0 +1,181 @@
+[PrefixDeclaration]
+dc:		http://purl.org/dc/elements/1.1/
+org:		http://www.w3.org/ns/org#
+owl:		http://www.w3.org/2002/07/owl#
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+xml:		http://www.w3.org/XML/1998/namespace#
+xsd:		http://www.w3.org/2001/XMLSchema#
+doap:		http://usefulinc.com/ns/doap#
+foaf:		http://xmlns.com/foaf/0.1/
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+anaee:		http://www.anaee-france.fr/ontology/anaee-france_ontology#
+dcterms:	http://purl.org/dc/terms/
+dcmitype:	http://purl.org/dc/dcmitype/
+oboe-core:	http://ecoinformatics.org/oboe/oboe.1.0/oboe-core.owl#
+protege-dc:	http://protege.stanford.edu/plugins/owl/dc/protege-dc.owl#
+oboe-spatial:	http://ecoinformatics.org/oboe/oboe.1.0/oboe-spatial.owl#
+oboe-temporal:	http://ecoinformatics.org/oboe/oboe.1.0/oboe-temporal.owl#
+oboe-standards:	http://ecoinformatics.org/oboe/oboe.1.0/oboe-standards.owl#
+oboe-characteristics:	http://ecoinformatics.org/oboe/oboe.1.0/oboe-characteristics.owl#
+
+[SourceDeclaration]
+sourceUri	bd_RECORD_Mapping
+connectionUrl	jdbc:mysql://localhost/anaeefrance
+username	useranaee
+password	Anaee!6811
+driverClass	com.mysql.jdbc.Driver
+
+[MappingDeclaration] @collection [[
+
+mappingId	MAPID-RecordmodelStandard
+target		<https://www6.inra.fr/record/model#{modelname}_{recordmodelid}> a anaee:RecordModelNamingStandard ; rdfs:label {recordmodelfullname} ; rdfs:comment <{shortdescription}^^xsd:string>  .
+source		SELECT r.id as recordmodelid, REPLACE(r.recordmodelname, ' ','') as modelname,r.shortdescription, r.recordmodelfullname from qhwkl_recordmodel r 
+
+mappingId	MAPID-Person
+target		<https://www6.inra.fr/record/person#{nomperson}_{id}> a anaee:Person ; foaf:name {nomperson}^^rdfs:Literal ; foaf:phone <tel:{phone}^^xsd:string> ; foaf:mbox <mailto:{email}^^xsd:string> .
+source		SELECT c.id, REPLACE(c.name, ' ', '') as nomperson, c.address, c.institution, c.phone, c.email from qhwkl_contact c 
+
+mappingId	MAPID-Organization_adress
+target		<https://www6.inra.fr/record/organization#{institution}_{id}> a org:Site ; rdfs:label {institution} ; org:siteAddress <{address}^^xsd:string> .
+source		SELECT c.id,  REPLACE(c.name, ' ', '') as nomperson, c.address, c.institution, c.phone, c.email from qhwkl_contact c  
+
+mappingId	MAPID-MappingOrganization
+target		<https://www6.inra.fr/record/organization#{institution}_{id}> a anaee:Organization ; rdfs:label {institution} ; org:siteAddress <{address}^^xsd:string> ; org:hasSite <https://www6.inra.fr/record/organization#{institution}_{id}> ; org:hasMember <https://www6.inra.fr/record/person#{nomperson}_{id}> .
+source		SELECT c.id, REPLACE(c.name, ' ', '') as nomperson, c.address, c.institution, c.phone, c.email from qhwkl_contact c  
+
+mappingId	MAPID-model-hascontext-plateforme-entity
+target		<https://www6.inra.fr/record/observation#{modelname}_{recordmodelid}> a oboe-core:Observation ; oboe-core:ofEntity anaee:Model ; rdfs:comment <{shortdescription}^^xsd:string>  ; oboe-core:hasContext <https://www6.inra.fr/record/observation#{bioticentityname}_{bioticentityid}> .
+source		SELECT r.id as recordmodelid, REPLACE(r.recordmodelname,' ','') as modelname,r.shortdescription,be.id as bioticentityid, be.bioticentityname, be.bioticentitystandard,be.prefix from qhwkl_recordmodel r INNER join  qhwkl_recordmodel_bioticentity mbe  on mbe.recordmodelid=r.id  INNER JOIN qhwkl_bioticentity be on be.id = mbe.bioticentityid 
+
+mappingId	MAPID-observation-of-entity-model-hascontext-ecosystem
+target		<https://www6.inra.fr/record/observation#{modelname}_{recordmodelid}> a oboe-core:Observation ; oboe-core:ofEntity anaee:Model ; rdfs:comment <{shortdescription}^^xsd:string>  ; oboe-core:hasContext <https://www6.inra.fr/record/observation#{ecosystemname}_{ecosystemid}> .
+source		SELECT r.id as recordmodelid,REPLACE(r.recordmodelname,' ','') as modelname,r.shortdescription,  ec.ecosystemname, ec.id as ecosystemid from qhwkl_recordmodel r INNER JOIN qhwkl_recordmodel_ecosystem re on re.recordmodelid = r.id INNER JOIN qhwkl_ecosystem ec on ec.id = re.ecosystemid  
+
+mappingId	MAPID-model-hascontext-process
+target		<https://www6.inra.fr/record/observation#{modelname}_{recordmodelid}> a oboe-core:Observation ; oboe-core:ofEntity anaee:Model ; rdfs:comment <{shortdescription}^^xsd:string>  ; anaee:implementsProcess <https://www6.inra.fr/record/observation#{processname}_{processid}> .
+source		SELECT r.id as recordmodelid, REPLACE(r.recordmodelname,' ','') as modelname,r.shortdescription,pr.id as processid, pr.processname, pr.processstandard from qhwkl_recordmodel r INNER join qhwkl_recordmodel_process mpr on mpr.recordmodelid=r.id INNER JOIN qhwkl_process pr on pr.id = mpr.processid 
+
+mappingId	MAPID-process-observation
+target		<https://www6.inra.fr/record/observation#{processname}_{processid}> a oboe-core:Observation ; oboe-core:ofEntity anaee:Process ; rdfs:comment {processstandard} ; oboe-core:hasMeasurement <https://www6.inra.fr/record/measurement#{processname}_{processid}> .
+source		SELECT pr.id as processid, pr.processname, pr.processstandard,pr.prefix  from qhwkl_process pr 
+
+mappingId	MAPID-process-measurement-name
+target		<https://www6.inra.fr/record/measurement#{processname}_{processid}> a oboe-core:Measurement ; oboe-core:usesStandard <{prefix}#processstandard> ; oboe-core:ofCharacteristic oboe-core:Name ; oboe-core:hasValue <{processstandard}^^xsd:string> .
+source		SELECT pr.id as processid, pr.processname, pr.processstandard,pr.prefix  from qhwkl_process pr  
+
+mappingId	MAPID-model-hascontext-author
+target		<https://www6.inra.fr/record/observation#{modelname}_{recordmodelid}> a oboe-core:Observation ; oboe-core:ofEntity anaee:Model ; rdfs:comment <{shortdescription}^^xsd:string>  ; anaee:hasAuthor <https://www6.inra.fr/record/observation#{nomperson}_{nompersonid}> .
+source		SELECT r.id as recordmodelid,REPLACE(r.recordmodelname,' ','') as modelname,r.shortdescription, c.id as nompersonid, REPLACE(c.name,' ','') as nomperson, c.address, c.institution,c.phone, c.email from qhwkl_recordmodel r INNER JOIN qhwkl_contact c on c.id=r.contact_id
+
+mappingId	MAPID-model-observation-ispartof-project
+target		<https://www6.inra.fr/record/observation#{modelname}_{recordmodelid}> a oboe-core:Observation ; oboe-core:ofEntity anaee:Model ; rdfs:comment <{shortdescription}^^xsd:string>  ; anaee:ispartOfProject <https://www6.inra.fr/record/observation#{projectname}_{project}> .
+source		SELECT p.id as project , p.projectname, p.projecttype, p.projectfullname, r.id as recordmodelid, REPLACE(r.recordmodelname,' ','') as modelname,r.shortdescription, r.recordmodelfullname from qhwkl_recordmodel r INNER JOIN qhwkl_project p on p.id = r.project_id 
+
+mappingId	MAPID-observation-of-entity-model-hasmodellingoutput
+target		<https://www6.inra.fr/record/observation#{modelname}_{recordmodelid}> a oboe-core:Observation ; oboe-core:ofEntity anaee:Model ; rdfs:comment <{shortdescription}^^xsd:string>  ; anaee:hasModellingOutput <https://www6.inra.fr/record/observation#{recordvariablename}_{recordvariableid}_{typevariable}> .
+source		SELECT rv.recordmodelid  as recordmodelid, REPLACE(r.recordmodelname,' ','') as modelname, r.shortdescription, r.recordmodelfullname, va.id as recordvariableid,va.recordvariablename,va.recordvariablestandard,va.recordvariabledescription,va.typevariable,va.unitname, va.unit, va.value from qhwkl_recordmodel r  INNER JOIN qhwkl_recordmodel_recordvariable rv on rv.recordmodelid = r.id INNER JOIN qhwkl_recordvariable va on va.id= rv.recordvariableid  WHERE va.typevariable=1
+
+mappingId	MAPID-observation-of-entity-model-hasmodellinginput
+target		<https://www6.inra.fr/record/observation#{modelname}_{recordmodelid}> a oboe-core:Observation ; oboe-core:ofEntity anaee:Model ; rdfs:comment <{shortdescription}^^xsd:string>  ; anaee:hasModellingInput <https://www6.inra.fr/record/observation#{recordvariablename}_{recordvariableid}_{typevariable}> .
+source		SELECT rv.recordmodelid, REPLACE(r.recordmodelname,' ','') as modelname,r.shortdescription, r.recordmodelfullname, va.id as recordvariableid,va.recordvariablename,va.recordvariablestandard,va.recordvariabledescription,va.typevariable,va.unitname, va.unit, va.value from qhwkl_recordmodel r  INNER JOIN qhwkl_recordmodel_recordvariable rv on rv.recordmodelid = r.id INNER JOIN qhwkl_recordvariable va on va.id= rv.recordvariableid  WHERE va.typevariable=0  
+
+mappingId	MAPID-ecosystem-observation-context
+target		<https://www6.inra.fr/record/observation#{ecosystemname}_{ecosystemid}> a oboe-core:Observation ; oboe-core:ofEntity anaee:{ecosystemstandard} .
+source		SELECT ec.id as ecosystemid,REPLACE(ec.ecosystemname,' ','') as ecosystemname,ec.ecosystemstandard,ec.prefix from qhwkl_ecosystem ec 
+
+mappingId	MAPID-Map-Project-observation
+target		<https://www6.inra.fr/record/observation#{projectname}_{project_id}> a oboe-core:Observation ; oboe-core:ofEntity <https://www6.inra.fr/record/projects#{projectname}_{project_id}> .
+source		SELECT  p.id as project_id , REPLACE(p.projectname,' ','') as projectname, p.projecttype, p.projectfullname from  qhwkl_project p 
+
+mappingId	MAPID-model-PlatFormExtension-hasExtension
+target		<https://www6.inra.fr/record/observation#{modelname}_{recordmodelid}> a oboe-core:Observation ; oboe-core:ofEntity anaee:Model ; rdfs:comment <{shortdescription}^^xsd:string>  ; anaee:hasExtension <https://www6.inra.fr/record/observation#{platformname}_{platformid}> .
+source		SELECT r.id as recordmodelid, REPLACE(r.recordmodelname,' ','') as modelname,r.shortdescription, r.recordmodelfullname, pe.id as platformid, REPLACE(' ','',pe.recordextensionname) as platformname from qhwkl_recordmodel r INNER JOIN qhwkl_recordmodel_platformextension rp on rp.recordmodelid = r.id INNER JOIN qhwkl_platformextension pe on pe.id = rp.recordextensionid 
+
+mappingId	MAPID-observation-of-entity-model-measurement
+target		<https://www6.inra.fr/record/observation#{modelname}_{recordmodelid}> a oboe-core:Observation ; oboe-core:ofEntity anaee:Model ; rdfs:comment <{shortdescription}^^xsd:string>  ; oboe-core:hasMeasurement <https://www6.inra.fr/record/measurement#{modelname}_{recordmodelid}> .
+source		SELECT R.id as recordmodelid, REPLACE(R.recordmodelname,' ','') as modelname,R.shortdescription, R.recordmodelfullname from qhwkl_recordmodel R 
+
+mappingId	MAPID-record-hascontext-plateforme
+target		<https://www6.inra.fr/record/observation#{entityname}_{bioticentityid}> a oboe-core:Observation ; oboe-core:ofEntity <{prefix}> ; oboe-core:hasMeasurement <https://www6.inra.fr/record/measurement#{entityname}_{bioticentityid}> .
+source		SELECT be.id as bioticentityid, REPLACE(be.bioticentityname,' ','') as entityname,be.prefix, be.bioticentitystandard from qhwkl_bioticentity be  
+
+mappingId	MAPID-hascontext-author
+target		<https://www6.inra.fr/record/observation#{nomperson}_{nompersonid}> a oboe-core:Observation ; oboe-core:ofEntity <https://www6.inra.fr/record/person#{nomperson}_{nompersonid}> .
+source		SELECT  c.id as nompersonid , REPLACE(c.name,' ','') as nomperson, c.address, c.institution,c.phone, c.email from qhwkl_contact c 
+
+mappingId	MAPID-PlatFormExtension-observation-hacontext
+target		<https://www6.inra.fr/record/observation#{platformname}_{platformid}> a oboe-core:Observation ; oboe-core:ofEntity <https://www6.inra.fr/record/extension#{platformname}_{platformid}> .
+source		SELECT r.id as recordmodelid, r.recordmodelname,r.shortdescription, r.recordmodelfullname ,  pe.id as platformid, REPLACE(pe.recordextensionname,' ','') as platformname from qhwkl_recordmodel r INNER JOIN qhwkl_recordmodel_platformextension rp on rp.recordmodelid = r.id INNER JOIN qhwkl_platformextension pe on pe.id = rp.recordextensionid  
+
+mappingId	MAPID-record-plateforme-measurement
+target		<https://www6.inra.fr/record/measurement#{entityname}_{bioticentityid}> a oboe-core:Measurement ; oboe-core:usesStandard anaee:ModellingPlatformNamingStandard ; oboe-core:ofCharacteristic oboe-core:Name ; oboe-core:hasValue <{prefix_entity}> .
+source		SELECT be.id as bioticentityid,REPLACE(be.bioticentityname,' ','') as entityname,be.prefix as prefix_entity, be.bioticentitystandard from qhwkl_bioticentity be 
+
+mappingId	MAPID-ExternalLibrary
+target		<https://www6.inra.fr/record/extension#{libname}_{libraryid}> a anaee:ExternalLibrary ; doap:homepage <{recordextensionurl}> ; foaf:name {libname}^^rdfs:Literal ; doap:programming-language {programminglanguage}^^rdfs:Literal ; doap:maintainer <https://www6.inra.fr/record/person#{nomperson}_{maintenerid}> ; doap:developer <https://www6.inra.fr/record/persons#{nomperson}_{developperid}> ; doap:helper <https://www6.inra.fr/record/persons#{nomperson}_{responsableid}> .
+source		SELECT pel.id as libraryid, REPLACE(pel.recordextensionname,' ','') as libname, pel.recordextensionurl, pel.recordextensionversion, pel.licence, pel.programminglanguage,REPLACE(c.name,' ','') as nomperson, pel.maintenerid, pel.developperid, pel.responsableid from qhwkl_externallibrary pel  INNER JOIN qhwkl_contact c on c.id = pel.maintenerid or  c.id = pel.developperid or c.id = pel.responsableid 
+
+mappingId	MAPID-PlatformDependancy-name
+target		<https://www6.inra.fr/record/extension#{depname}_{dependancyid}> a anaee:PlatformDependancy ; doap:homepage <{recordextensionurl}> ; foaf:name {depname}^^rdfs:Literal ; doap:programming-language {programminglanguage}^^rdfs:Literal ; doap:maintainer <https://www6.inra.fr/record/person#{nomperson}_{maintenerid}> ; doap:developer <https://www6.inra.fr/record/persons#{nomperson}_{developperid}> ; doap:helper <https://www6.inra.fr/record/persons#{nomperson}_{responsableid}> .
+source		SELECT pd.id as dependancyid, REPLACE(pd.recordextensionname,' ','') as depname, pd.recordextensionurl, pd.recordextensionversion, pd.licence, pd.programminglanguage,REPLACE(c.name,' ','') as nomperson, pd.maintenerid, pd.developperid, pd.responsableid from qhwkl_plateformpackagesdependancie pd   INNER JOIN qhwkl_contact c on c.id = pd.maintenerid or  c.id = pd.developperid or c.id = pd.responsableid  
+
+mappingId	MAPID-PlatFormExtension-name
+target		<https://www6.inra.fr/record/extension#{platformname}_{platformid}> a anaee:PlatFormExtension ; doap:homepage <{recordextensionurl}> ; foaf:name {platformname}^^rdfs:Literal ; rdfs:comment {formalism} ; doap:programming-language {programminglanguage}^^rdfs:Literal ; doap:maintainer <https://www6.inra.fr/record/person#{nomperson}_{maintenerid}> ; doap:developer <https://www6.inra.fr/record/persons#{nomperson}_{developperid}> ; doap:helper <https://www6.inra.fr/record/persons#{nomperson}_{responsableid}> .
+source		SELECT pe.id as platformid, REPLACE(pe.recordextensionname,' ','') as platformname , pe.formalism, pe.recordextensionurl, pe.recordextensionversion, pe.licence, pe.programminglanguage,REPLACE(c.name,' ','') as nomperson, pe.maintenerid, pe.developperid, pe.responsableid from qhwkl_platformextension pe   INNER JOIN qhwkl_contact c on c.id = pe.maintenerid or  c.id = pe.developperid or c.id = pe.responsableid 
+
+mappingId	MAPID-inout-hasContext-entity
+target		<https://www6.inra.fr/record/observation#{recordvariablename}_{recordvariableid}_{typevariable}> a oboe-core:Observation ; oboe-core:ofEntity anaee:Inout ; oboe-core:hasContext <https://www6.inra.fr/record/entity/observation#{bioticentityname}_{bioticentityid}> .
+source		SELECT va.id as recordvariableid,va.recordvariablename,va.recordvariablestandard,va.recordvariabledescription,va.typevariable,va.unitname, va.unit, va.value, va.prefix, be.id as bioticentityid, be.bioticentityname, be.bioticentitystandard  from qhwkl_recordvariable va   INNER JOIN qhwkl_entity_recordvariable erv on erv.recordvariableid = va.id INNER JOIN qhwkl_bioticentity be on be.id = erv.entityid  WHERE (va.recordvariablename!='')  AND  (va.unitname !='') 
+
+mappingId	MAPID-inout-hasContext-entity-characteristic
+target		<https://www6.inra.fr/record/entity/observation#{bioticentityname}_{bioticentityid}> a oboe-core:Observation ; oboe-core:ofEntity anaee:{bioticentitystandard} ; oboe-core:hasMeasurement <https://www6.inra.fr/record/entity/measurement#{recordvariablename}_{recordvariableid}_{typevariable}_{bioticentityname}_{bioticentityid}> .
+source		SELECT va.id as recordvariableid,va.recordvariablename,va.recordvariablestandard,va.recordvariabledescription,va.typevariable,va.unitname, va.unit, va.value, va.prefix, be.id as bioticentityid, be.bioticentityname, be.bioticentitystandard  from qhwkl_recordvariable va   INNER JOIN qhwkl_entity_recordvariable erv on erv.recordvariableid = va.id INNER JOIN qhwkl_bioticentity be on be.id = erv.entityid  WHERE (va.recordvariablename!='')  AND  (va.unitname !='') 
+
+mappingId	MAPID-inout-entity-measurement-characteristic
+target		<https://www6.inra.fr/record/entity/measurement#{recordvariablename}_{recordvariableid}_{typevariable}_{bioticentityname}_{bioticentityid}> a oboe-core:Measurement ; oboe-core:usesStandard <{unitname}> ; oboe-core:ofCharacteristic <https://www6.inra.fr/record/inout#{recordvariablename}_{recordvariableid}_{typevariable}> ; anaee:hasSISymbol {unit} ; oboe-core:hasValue <{value}^^xsd:string> .
+source		SELECT va.id as recordvariableid,va.recordvariablename,va.prefix ,va.recordvariablestandard,va.recordvariabledescription,va.typevariable,va.unitname, va.unit, va.value, be.id as bioticentityid, be.bioticentityname, be.bioticentitystandard  from qhwkl_recordvariable va   INNER JOIN qhwkl_entity_recordvariable erv on erv.recordvariableid = va.id INNER JOIN qhwkl_bioticentity be on be.id = erv.entityid  WHERE (va.recordvariablename!='')   AND  (va.unitname !='')
+
+mappingId	MAPID-inout-observation-name
+target		<https://www6.inra.fr/record/observation#{recordvariablename}_{recordvariableid}_{typevariable}> a oboe-core:Observation ; oboe-core:ofEntity anaee:Inout ; oboe-core:hasMeasurement <https://www6.inra.fr/record/measurement#{recordvariablename}_{recordvariableid}_{typevariable}> .
+source		SELECT va.id as recordvariableid,va.recordvariablename,va.recordvariablestandard,va.recordvariabledescription,va.typevariable, va.value  from qhwkl_recordvariable va    WHERE (va.recordvariablename!='')  AND  (va.recordvariablestandard!='') 
+
+mappingId	MAPID-inout-measurement-name
+target		<https://www6.inra.fr/record/measurement#{recordvariablename}_{recordvariableid}_{typevariable}> a oboe-core:Measurement ; oboe-core:usesStandard <{prefix}> ; oboe-core:ofCharacteristic oboe-core:Name ; oboe-core:hasValue <{recordvariablestandard}^^xsd:string> .
+source		SELECT va.id as recordvariableid,va.recordvariablename,va.recordvariablestandard,va.prefix, va.recordvariabledescription,va.typevariable, va.value  from qhwkl_recordvariable va    WHERE (va.recordvariablename!='')  AND  (va.recordvariablestandard!='')  
+
+mappingId	MAPID-inout-name
+target		<https://www6.inra.fr/record/inout#{recordvariablename}_{recordvariableid}_{typevariable}> a anaee:Inout ; rdfs:label {recordvariablestandard} ; rdfs:comment {recordvariabledescription}.
+source		SELECT va.id as recordvariableid,va.recordvariablename,va.recordvariablestandard,va.recordvariabledescription,va.typevariable, va.value  from qhwkl_recordvariable va    WHERE (va.recordvariablename!='')  AND  (va.recordvariablestandard!='') 
+
+mappingId	MAPID-RecordInOutStandard
+target		<{prefix}> a anaee:Anaee-franceVariableNamingStandard ; rdfs:label {recordvariablestandard} ; rdfs:comment {recordvariabledescription}.
+source		SELECT va.id as recordvariableid,va.prefix,va.recordvariablename,va.recordvariablestandard,va.recordvariabledescription,va.typevariable, va.value  from qhwkl_recordvariable va  WHERE va.recordvariablestandard!='' 
+
+mappingId	MAPID-model-observation-hasContext-publication
+target		<https://www6.inra.fr/record/observation#{modelname}_{recordmodelid}> a oboe-core:Observation ; oboe-core:ofEntity anaee:Model ; rdfs:comment <{shortdescription}^^xsd:string>  ; anaee:hasPublication <https://www6.inra.fr/record/observation#{publicationtitle}> .
+source		SELECT r.id as recordmodelid,REPLACE(r.recordmodelname, ' ','') as modelname,r.shortdescription, r.recordmodelfullname , REPLACE(pm.recordpublicationtitle,' ','') as publicationtitle from qhwkl_recordmodel r INNER JOIN qhwkl_recordpublication pm on pm.id = r.recordpublicationid 
+
+mappingId	MAPID-model-observation-name
+target		<https://www6.inra.fr/record/observation#{modelname}_{recordmodelid}> a oboe-core:Observation ; oboe-core:ofEntity anaee:Model ; rdfs:comment <{shortdescription}^^xsd:string>  ; oboe-core:hasMeasurement <https://www6.inra.fr/record/measurement#{modelname}_{recordmodelid}> .
+source		SELECT r.id as recordmodelid, REPLACE(r.recordmodelname, ' ','') as modelname,r.shortdescription, r.recordmodelfullname from qhwkl_recordmodel r  
+
+mappingId	MAPID-model-measurement-name
+target		<https://www6.inra.fr/record/measurement#{modelname}_{recordmodelid}> a oboe-core:Measurement ; oboe-core:usesStandard anaee:RecordModelNamingStandard ; oboe-core:ofCharacteristic oboe-core:Name ; oboe-core:hasValue <{recordmodelfullname}^^xsd:string> .
+source		SELECT r.id as recordmodelid,REPLACE(r.recordmodelname, ' ','') as modelname,r.shortdescription, r.recordmodelfullname from qhwkl_recordmodel r 
+
+mappingId	MAPID-model-name
+target		<https://www6.inra.fr/record/model#{modelname}_{recordmodelid}> a anaee:Model ; rdfs:label {recordmodelfullname} ; rdfs:comment <{shortdescription}^^xsd:string> .
+source		SELECT r.id as recordmodelid, REPLACE(r.recordmodelname, ' ','') as modelname,r.shortdescription, r.recordmodelfullname from qhwkl_recordmodel r 
+
+mappingId	MAPID-Map-Project
+target		<https://www6.inra.fr/record/projects#{projectname}_{project_id}> a anaee:Project ; doap:anon-root {availablevpz}^^rdfs:Literal ; doap:shortdesc {shortdescription}^^rdfs:Literal ; doap:homepage <{url}> ; doap:description {r.shortdescription}^^rdfs:Literal ; foaf:name {projectfullname}^^rdfs:Literal ; doap:revision {modelversion}^^rdfs:Literal ; doap:created {firstversiondate}^^rdfs:Literal ; doap:release doap:revision{currentreleasedate}_{modelversion}.
+source		SELECT p.id as project_id , REPLACE(p.projectname,' ','') as projectname, p.projecttype, p.projectfullname, p.modelversion, p.modelstatus, p.accessibility, p.firstversiondate, p.currentreleasedate, p.otherreleases, p.shortdescription, p.usercommunity, p.faq, p.reference, p.url, p.modelsummary, p.validitydomain, p.statedescription, p.availablevpz, p.documentationstatus, p.vleversion from  qhwkl_project p 
+
+mappingId	MAPID-observation-publication
+target		<https://www6.inra.fr/record/observation#{publicationtitle}> a oboe-core:Observation ; oboe-core:ofEntity <https://www6.inra.fr/record/publication#{recordpublicationid}> .
+source		SELECT  pm.id as recordpublicationid, REPLACE(pm.recordpublicationtitle,' ','') as publicationtitle, pm.recordpublicationurl  from qhwkl_recordpublication pm 
+
+mappingId	MAPID-publication
+target		<https://www6.inra.fr/record/publication#{recordpublicationid}> a anaee:Publication.
+source		SELECT pm.id as recordpublicationid,REPLACE(pm.recordpublicationtitle,' ','') as publicationtitle,pm.recordpublicationurl  from qhwkl_recordpublication pm 
+]]

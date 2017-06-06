@@ -1,11 +1,11 @@
 #!/bin/bash
    
     RW_MODE=${2:-"ro"}
-    XMS=${3:-"-Xms10g"}
-    XMX=${4:-"-Xmx10g"}
+    XMS=${3:-"-Xms4g"}
+    XMX=${4:-"-Xmx4g"}
     #XMX=${4:-""}
 
-    # -XX:MaxDirectMemorySize=28g 
+    # -XX:MaxDirectMemorySize=210g 
     
     EXIT() {
        parent_script=`ps -ocommand= -p $PPID | awk -F/ '{print $NF}' | awk '{print $1}'`
@@ -111,7 +111,7 @@
           tput setaf 7
           sleep 2         
          
-          java -server -XX:+UseG1GC $XMS $XMX  -XX:+UseStringDeduplication     -XX:MaxDirectMemorySize=22g         \
+          java -server -XX:+UseG1GC $XMS $XMX  -XX:+UseStringDeduplication     -XX:MaxDirectMemorySize=4g         \
                -Xloggc:$DIR_BLZ/logs/gc.txt                                             \
                -verbose:gc -XX:+PrintGCDetails                                          \
                -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps                            \
@@ -142,7 +142,7 @@
           tput setaf 7
           sleep 2
         
-          java -server -XX:+UseG1GC $XMS $XMX -XX:+UseStringDeduplication    -XX:MaxDirectMemorySize=22g         \
+          java -server -XX:+UseG1GC $XMS $XMX -XX:+UseStringDeduplication    -XX:MaxDirectMemorySize=4g         \
                -Xloggc:$DIR_BLZ/logs/gc.txt                                             \
                -verbose:gc -XX:+PrintGCDetails                                          \
                -XX:+PrintGCDateStamps -XX:+PrintGCTimeStamps                            \

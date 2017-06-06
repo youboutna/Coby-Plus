@@ -1,0 +1,6 @@
+
+obda-sourceUri     : bd_RECORD_Mapping
+obda-connectionUrl : jdbc:mysql://localhost/anaeefrance?sendBufferSize=5000
+obda-username      : root
+obda-password      : med6811
+obda-driverClass   : com.mysql.jdbc.Driver

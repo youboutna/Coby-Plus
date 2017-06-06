@@ -1,0 +1,172 @@
+PREFIX : <http://www.anaee-france.fr/ontology/anaee-france_ontology#> 
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> 
+PREFIX oboe-core: <http://ecoinformatics.org/oboe/oboe.1.0/oboe-core.owl#> 
+PREFIX oboe-standard: <http://ecoinformatics.org/oboe/oboe.1.0/oboe-standards.owl#>
+PREFIX oboe-temporal: <http://ecoinformatics.org/oboe/oboe.1.0/oboe-temporal.owl#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+
+CONSTRUCT { 
+
+      ?idVariableSynthesis    a                     :Variable           .
+      ?idVariableSynthesis   :ofVariable            ?variable           .
+      ?idVariableSynthesis   :hasCategory           ?category           .
+      ?variable              :hasAnaeeVariableName  ?anaeeVariableName  .
+      ?variable              :hasLocalVariableName  ?localVariableName  .
+      ?variable              :hasUnit                ?unit              .
+      ?unit                  :hasAnaeeUnitName      ?anaeeUnitName      .
+      ?category              :hasCategoryName       ?categoryName       .
+      ?idVariableSynthesis   :hasSite               ?site               .
+      ?site                  :hasLocalSiteName      ?localSiteName      . 
+      ?site                  :hasAnaeeSiteName      ?anaeeSiteName      .           
+      ?site                  :hasSiteType           ?ecoType            .
+      ?site                  :hasSiteTypeName       ?ecoTypeName        .
+      ?site                  :hasInfra              ?infra              .
+      ?infra                 :hasInfraName          ?infraName          .
+      ?idVariableSynthesis   :hasNbData             ?nbData             .
+      ?idVariableSynthesis   :hasYear               ?year               .
+}
+
+ WHERE {
+      
+   SELECT ?infra
+          ?infraName
+          ?idVariableSynthesis 
+          ?site  
+          ?anaeeSiteName
+          ?localSiteName	
+          ?ecoType
+          ?ecoTypeName
+          ?category
+          ?categoryName 
+          ?variable 
+          ?anaeeVariableName
+          ?localVariableName
+          ?unit
+          ?anaeeUnitName
+          ?year 
+          (COUNT(*) as ?nbData)
+    
+   WHERE  {
+       
+           hint:Query hint:analytic "true" .
+           
+           
+          # hint:Query hint:optimizer "Runtime" .
+          # hint:Query hint:constructDistinctSPO "true" .
+          # hint:Query hint:normalizeFilterExpressions "true" .
+          # hint:Query hint:maxParallel 5 .
+          # hint:Query hint:pipelinedHashJoin "true" .
+        
+        
+           ?obs_var_1 a oboe-core:Observation ; 
+                        oboe-core:ofEntity ?anyVariable ; 
+                        oboe-core:hasMeasurement ?measu_2 ; 
+                        :hasVariableContext ?obs_variable_4 ;
+                        oboe-core:hasContext+ ?obs_timeInstant_50 , ?obs_site_60 .              
+
+           ?measu_2 a oboe-core:Measurement ; 
+                      oboe-core:usesStandard ?unit .
+      
+           OPTIONAL { ?unit rdfs:label ?anaeeUnitName . }
+           BIND ( IF (BOUND (?anaeeUnitName), ?anaeeUnitName, "NULL_UNIT_LABEL"@en  ) AS ?anaeeUnitName) .
+           FILTER (lang(?anaeeUnitName) = "en") .
+             
+           ?obs_variable_4 a oboe-core:Observation ; 
+                             oboe-core:ofEntity :Variable ; 
+                             oboe-core:hasMeasurement ?measu_5 ; 
+                             oboe-core:hasMeasurement ?measu_6 ; 
+                             oboe-core:hasContext ?obs_categ_7 .
+
+           ?obs_categ_7 a oboe-core:Observation ; 
+                          oboe-core:ofEntity :VariableCategory ; 
+                          oboe-core:hasMeasurement ?measu_8 .  
+             
+           ?measu_8 a oboe-core:Measurement ; 
+                      oboe-core:usesStandard :Anaee-franceVariableCategoryNamingStandard ; 
+                      oboe-core:hasValue ?category .
+                 
+           # OPTIONAL {   ?category rdfs:label ?categoryName . }
+           
+           ?category rdfs:label ?categoryName .
+          
+           #  BIND ( IF (BOUND (?categoryName), ?categoryName , "NULL_CATEGRY_LABEL_NAME"@en  ) AS ?categoryName ) .
+           #  FILTER (lang(?categoryName ) = "en") .
+             
+           ?measu_5 a oboe-core:Measurement ; 
+                      oboe-core:usesStandard :NamingStandard ; 
+                      oboe-core:hasValue ?localVariableName .
+       
+           ?measu_6 a oboe-core:Measurement ; 
+                      oboe-core:usesStandard :Anaee-franceVariableNamingStandard ; 
+                      oboe-core:hasValue ?variable .
+           
+           OPTIONAL { ?variable rdfs:label ?anaeeVariableName . }
+           BIND ( IF (BOUND (?anaeeVariableName), ?anaeeVariableName, "NULL_anaeeVariableName" ) AS ?anaeeVariableName) .
+
+           ?obs_timeInstant_50 a oboe-core:Observation ; 
+                                 oboe-core:ofEntity oboe-temporal:TimeInstant ; 
+                                 oboe-core:hasMeasurement ?measu_51 .     
+
+           ?measu_51 a oboe-core:Measurement ;
+                       oboe-core:ofCharacteristic :Date ;
+                       oboe-core:usesStandard :DateTime ;
+                       oboe-core:hasValue ?date .
+
+           ?obs_site_60 a oboe-core:Observation ; 
+                          oboe-core:ofEntity :ExperimentalSite ; 
+                          oboe-core:hasMeasurement  ?measu_61 , ?measu_62 ;
+                          oboe-core:hasContext ?obs_expNetwork_63 ;  
+                          oboe-core:hasContext ?obs_ecoType_65  .
+
+           ?measu_61 a oboe-core:Measurement ;
+                       oboe-core:ofCharacteristic oboe-core:Name ;
+                       oboe-core:usesStandard :NamingStandard ;
+                       oboe-core:hasValue ?localSiteName .
+
+           ?measu_62 a oboe-core:Measurement ;
+                       oboe-core:ofCharacteristic oboe-core:Name ;
+                       oboe-core:usesStandard :Anaee-franceExperimentalSiteNamingStandard ;
+                       oboe-core:hasValue ?anaeeSiteNameStandard .
+    
+           BIND (URI( REPLACE ( CONCAT("http://www.anaee-france.fr/ontology/anaee-france_ontology" , 
+                                ?anaeeSiteNameStandard ) , " ", "_") ) AS ?site ) .
+
+           OPTIONAL { ?site rdfs:label ?anaeeSiteName }  .
+
+           BIND ( IF (BOUND (?anaeeSiteName),  ?anaeeSiteName, "NULL_LABEL_SITE" ) AS ?anaeeSiteName ) .
+
+           ?obs_expNetwork_63  a oboe-core:Observation ;
+                                 oboe-core:ofEntity :ExperimentalNetwork ; 
+                                 oboe-core:hasMeasurement  ?measu_64 .
+
+           ?measu_64 a oboe-core:Measurement ;
+                       oboe-core:ofCharacteristic oboe-core:Name ;
+                       oboe-core:usesStandard :Anaee-franceExperimentalNetworkNamingStandard ;
+                       oboe-core:hasValue ?infra .
+
+           OPTIONAL { ?infra rdfs:label ?infraName .}
+           BIND ( IF (BOUND (?infraName), ?infraName, "NULL_LABEL_INFRA"@en )  AS ?infraName ) .
+           FILTER (lang(?infraName ) = "en") .
+
+           ?obs_ecoType_65 a oboe-core:Observation ; 
+                             oboe-core:ofEntity ?ecoType . 
+
+          ?ecoType rdfs:label ?ecoTypeName ; FILTER (lang(?ecoTypeName ) = "en" ) .
+
+          FILTER ( NOT EXISTS { ?obs_ecoType_65 oboe-core:ofEntity :ExperimentalNetwork  }) .
+
+          BIND(YEAR(?date) AS ?year) .   
+     
+          BIND (URI( REPLACE ( CONCAT ("http://anaee-fr#foret/"  ,
+                                       ?anaeeSiteName     , "_"  , 
+                                       ?categoryName      , "_"  , 
+                                       ?anaeeVariableName , "_"  ,
+                                       str(?year) )              , 
+                               " ", "_") ) AS ?idVariableSynthesis ) .          
+  }
+
+  GROUP BY ?infra  ?infraName   ?idVariableSynthesis ?site              ?anaeeSiteName 
+           ?localSiteName       ?ecoType             ?ecoTypeName       ?category 
+           ?categoryName        ?variable            ?anaeeVariableName
+           ?localVariableName   ?unit                ?anaeeUnitName     ?year
+}    

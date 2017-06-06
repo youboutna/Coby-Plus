@@ -1,11 +1,10 @@
 #!/bin/bash
  
-    ./main.sh  ip=localhost               \
-               namespace=foret            \
-               ro=8888                    \
-               rw=7777                    \
-               si=FORET                   \
-               db=postgresql              \
+    ./main.sh  ip=147.100.179.25               \
+               namespace=record            \
+               ro=8080                    \
+               rw=8082                   \
+               si=RECORD                   \
+               db=mysql              \
       	       ext_obda=obda              \
-               ext_graph=graphml          \
-               class_file_name=class.txt  
+                
