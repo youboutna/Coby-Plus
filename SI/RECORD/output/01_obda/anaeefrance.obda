@@ -22,7 +22,7 @@ oboe-characteristics:	http://ecoinformatics.org/oboe/oboe.1.0/oboe-characteristi
 sourceUri	bd_RECORD_Mapping
 connectionUrl	jdbc:mysql://localhost/anaeefrance
 username	useranaee
-password	Anaee!6811
+password	bbbbblll
 driverClass	com.mysql.jdbc.Driver
 
 [MappingDeclaration] @collection [[
